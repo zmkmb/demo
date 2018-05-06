@@ -1,0 +1,70 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes, minimal-ui"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="blank"/>
+    <meta name="format-detection" content="telephone=no, email=no"/>
+    <script type="text/javascript" src="./lufylegend.js"></script>
+</head>
+<body style="margin: 0px 0px 0px 0px; background-color: #fff;" id="main"> 
+   <img src="./img/11.png" id="img" style="float:left">
+   <div style="float:left;background:#ccc;height:300px;width:300px";>
+        <div id="legend" style="font-size: 0px;"></div>
+   </div>
+   <button id="createPic">生成顶点数组</button> <button id="refresh">刷新</button>
+   <h4 id="arrStr"></h4>
+</body>
+<script>
+
+var index = [];
+var indexList = [];
+var img = document.getElementById('img');
+img.style.width = '300px';
+img.style.height = '300px';
+
+
+var shape1;
+LInit(50, "legend", 300, 300, main);
+function main () {
+    shape1 = new LShape();
+    addChild(shape1);
+}
+
+img.addEventListener('click',function(e){
+    var x = e.clientX;
+    var y = e.clientY;
+    var d = document.createElement("div");
+    d.style.position = 'fixed';
+    d.style.top = y;
+    d.style.left = x;
+    d.style.width = '2px';
+    d.style.height = '2px';
+    d.style.backgroundColor = 'red';
+    index[0] = x;
+    index[1] = y;
+    indexList.push(index);
+    index = [];
+    var element=document.getElementById("main");
+    element.appendChild(d);
+    shape1.graphics.drawVertices(0, "#ff0000", indexList, true, "#880088");
+})
+
+document.getElementById('createPic').addEventListener('click',function(){
+    shape1.graphics.drawVertices(0, "#ff0000", indexList, true, "#880088");
+    var str = '[';
+    indexList.forEach(function(item){
+        str += ('[' + item[0] + ','+ item[1] + '],');
+    })
+    str += ']';
+	document.getElementById('arrStr').innerHTML = str;
+    console.log(str)
+})
+
+//刷新
+document.getElementById('refresh').addEventListener('click',function(){
+	window.location.reload();
+})
+
+</script>
+</html>
