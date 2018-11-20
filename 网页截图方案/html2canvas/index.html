@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<meta charset="utf8">
+	<style type="text/css">
+
+		#grad1 {
+		    height: 100px;
+		    width: 100px;
+		    background: -webkit-linear-gradient(left top, red , blue); /* Safari 5.1 - 6.0 */
+		    background: -o-linear-gradient(bottom right, red, blue); /* Opera 11.1 - 12.0 */
+		    background: -moz-linear-gradient(bottom right, red, blue); /* Firefox 3.6 - 15 */
+		    background: linear-gradient(to bottom right, red , blue); /* 标准的语法（必须放在最后） */
+		}
+
+	</style>
+</head>
+<body>
+<div id="capture">
+<p>这是一个测试页面</p>
+	<div id="grad1"></div>
+</div>
+<br>
+<hr>
+<h5><span><a id="download" download="demo.jpg"><button>保存截图</button></a></span></h5>
+<script type="text/javascript" src="./html2canvas.min.js"></script>
+<script type="text/javascript">
+	html2canvas(document.querySelector("#capture")).then(function(canvas){
+	    document.body.appendChild(canvas)
+	    document.getElementById('download').href = canvas.toDataURL("image/jpeg");
+	    console.log(canvas.toDataURL("image/jpeg"))
+	});
+</script>
+</body>
+</htm
