@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=no"/>
+    <style type="text/css">
+    .asciiContainer{
+        font-family: 'Courier New', 'Courier', monospace;
+        font-size: 10px;
+        line-height: 10px;
+        letter-spacing: -1.5px;
+        text-align: center;
+        transform: scale(0.3,0.3);
+    }
+    </style>
+</head>
+<body>
+<canvas class="myCanvas" id="myCanvas"></canvas>
+<pre class="asciiContainer" id="asciiContainer"></pre>
+<script type="text/javascript" src="./js/ascii.js"></script>
+<script type="text/javascript">
+    //判断兼容性
+    navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
+    window.URL = window.URL || window.webkitURL || window.mozURL || window.msURL;
+    if(!navigator.getUserMedia){
+        alert('该浏览器不支持getUserMedia');
+    }
+
+    var myVideo = document.createElement('video');
+    var myCanvas = document.getElementById('myCanvas');
+    var asciiContainer = document.getElementById('asciiContainer');
+    var w = 200;//宽
+    var h = 200;//高
+    var t = 100;//刷新时间毫秒
+    //设置宽高
+    myVideo.width = w;
+    myVideo.height = h;
+    myCanvas.width = w;
+    myCanvas.height = h;
+    asciiContainer.style.width = w + 'px';
+    asciiContainer.style.height = h + 'px';
+
+    navigator.getUserMedia({
+      'video': true,
+      'audio':true
+      }, (stream) => {
+          myVideo.srcObject = stream;
+          var ctx = myCanvas.getContext('2d')
+           window.setInterval(function () {
+                ctx.drawImage(myVideo, 0, 0, w, h);
+                //ascii
+                ascii.fromCanvas(myCanvas, {
+                    callback: function(asciiString) {
+                        asciiContainer.innerHTML = asciiString;
+                    }
+                });
+            }, t);
+        }, () => {
+
+      });
+</script>
+</body>
+</html>
